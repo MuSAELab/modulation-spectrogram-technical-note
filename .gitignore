@@ -1,0 +1,5 @@
+# Windows default Matlab autosave extension
+*.asv
+
+# OSX / *nix default Matlab autosave extension
+*.m~
