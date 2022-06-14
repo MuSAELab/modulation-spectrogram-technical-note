@@ -8,9 +8,9 @@
 
 %% Load data 
 clean_data = load('./data/clean_y_acc.mat');
-clean_x = clean_data.AccelY2;
+clean_x = clean_data.AccelY2 - mean(clean_data.AccelY2);
 noisy_data = load('./data/noisy_y_acc.mat');
-noisy_x = noisy_data.AccelY2;
+noisy_x = noisy_data.AccelY2 - mean(noisy_data.AccelY2);
 fs=30;
 time_vector = [1:length(clean_x)]' ./ fs; 
 
@@ -19,8 +19,8 @@ clean_psd = rfft_psd(clean_x, fs);
 noisy_psd = rfft_psd(noisy_x, fs);
 
 %% Compute modulation spectrograms
-clean_modspectr = strfft_modulation_spectrogram(clean_x(1: 136), fs, 8, 0.25*8, 16, [], 2, []);
-noisy_modspectr = strfft_modulation_spectrogram(noisy_x(1: 136), fs, 8, 0.25*8, 16, [], 2, []);                               
+clean_modspectr = strfft_modulation_spectrogram(clean_x, fs, 8, 0.25*8, 16, [], 2, []);
+noisy_modspectr = strfft_modulation_spectrogram(noisy_x, fs, 8, 0.25*8, 16, [], 2, []);
 
 %% Plot figure
 figure('units','normalized','outerposition',[0 0 1 1])
@@ -33,6 +33,7 @@ ax2 = subplot(3,2,2);
 plot(time_vector, noisy_x, 'k');
 title('Noisy y-axis accelerometer signal')
 linkaxes([ax1, ax2])
+ylim([-1, 1])
 xlabel([ax1, ax2], 'Time (s)');
 
 % === Power spectrum
@@ -41,11 +42,11 @@ plot(clean_psd.freq_axis, clean_psd.PSD, 'k');
 ax2 = subplot(3,2,4);
 plot(noisy_psd.freq_axis, noisy_psd.PSD, 'k');
 linkaxes([ax1, ax2])
-xlabel([ax1, ax2], 'Frequency (s)');
+xlabel([ax1, ax2], 'Frequency (Hz)');
 ylabel([ax1, ax2], 'Power');
 
 % === Modulation spectrograms
-color_lims = [-60, -30];
+color_lims = [-60, -35];
 ax1 = subplot(3,2,5);
 plot_modulation_spectrogram_data(clean_modspectr, [], [], [], color_lims, 'inferno');
 ax2 = subplot(3,2,6);
