@@ -10,23 +10,16 @@ if fs~=256
     fs=256;
 end
 
-% BASEWINDOW=32;
-% BASEOVERLAP=BASEWINDOW*0.75;
-% BASENFFT=512;
-% MODWINDOW=128;
-% MODNFFT=512;
-% 
-% [B,F,T] = modspecgram(ECG,fs,BASEWINDOW,BASEOVERLAP,BASENFFT,MODWINDOW,MODNFFT);
-% 
-% %Modulation spectrogram figure
-% modspecgram(ECG,fs,BASEWINDOW,BASEOVERLAP,BASENFFT,MODWINDOW,MODNFFT);
+BASEWINDOW=32;
+BASEOVERLAP=BASEWINDOW*0.75;
+BASENFFT=512;
+MODWINDOW=128;
+MODNFFT=512;
 
-modspect = strfft_modulation_spectrogram(ECG(1: 1048), fs, 32, 8, 16, [], 4, []);
-B = sqrt(modspect.power_modulation_spectrogram);
-F = modspect.freq_axis';
-T = modspect.freq_mod_axis'; 
-figure()
-plot_modulation_spectrogram_data(modspect);
+[B,F,T] = modspecgram(ECG,fs,BASEWINDOW,BASEOVERLAP,BASENFFT,MODWINDOW,MODNFFT);
+
+%Modulation spectrogram figure
+modspecgram(ECG,fs,BASEWINDOW,BASEOVERLAP,BASENFFT,MODWINDOW,MODNFFT);
 
 %Scale the matrix between 0 and 1
 B1=B(:,11:end);
