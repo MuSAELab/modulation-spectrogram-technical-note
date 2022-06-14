@@ -24,10 +24,10 @@ figure('units','normalized','outerposition',[0 0 1 1])
 
 % === Time series
 ax1 = subplot(2,1,1);
-plot(time_vector, x)
+plot(time_vector, x, 'k')
 title('Noisy ECG signal')
 ax2 = subplot(2,1,2);
-plot(time_vector, x_enhanced)
+plot(time_vector, x_enhanced, 'k')
 title('Enhanced ECG signal')
 linkaxes([ax1, ax2], 'x');
 xlabel([ax1, ax2], 'Time (s)');
