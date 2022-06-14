@@ -14,7 +14,8 @@ signal = (signal-mean(signal))./std(signal);
 
 %Heart rate detection (biggest energy between 0.18 and 3.3 Hz in the 
 %modulation spectral frequency axis)
-[fc] = central_frequency(signal,fs);
+[~, hr] = msqi_ama(signal, fs); % HR given in beats per minute
+fc = hr / 60;                   % HR given in Hz
 
 %Band pass filter configuration
 %The width for each modulation frequency lobe is 0.625 Hz, so BW2=0.625/2
